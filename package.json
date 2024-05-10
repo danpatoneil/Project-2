@@ -3,7 +3,9 @@
     "version": "1.0.0",
     "description": "",
     "main": "server.js",
-    "scripts": {},
+    "scripts": {
+        "igdb": "node igdb.js "
+    },
     "author": "Team 4: Dan, Katie, and Aaron",
     "license": "MIT",
     "dependencies": {
