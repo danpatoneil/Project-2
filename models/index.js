@@ -3,8 +3,8 @@ const Controller = require('./Controller');
 const Party = require('./Party');
 const Friend = require('./Friend');
 const ConsoleController = require('./ConsoleController');
-const ConsoleUser = require('./ConsoleUser');
 const GameUser = require('./GameUser');
+const ConsoleUser = require('./ConsoleUser');
 
 User.hasMany(Party, {
     foreignKey: 'owner_id',
@@ -67,4 +67,4 @@ User.hasMany(GameUser, {
 });
 
 
-module.exports = { User, Controller, Party, Friend };
+module.exports = { User, Controller, Party, Friend, GameUser, ConsoleUser, ConsoleController };
