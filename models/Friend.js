@@ -5,19 +5,13 @@ class Friend extends Model {}
 
 Friend.init(
   {
-    friend_id: {
+    user_id1: {
       type: DataTypes.INTEGER,
-      references: {
-        model: "user",
-        key: "id",
-      },
+      allowNull: false,
     },
-    user_id: {
+    user_id2: {
       type: DataTypes.INTEGER,
-      references: {
-        model: "user",
-        key: "id",
-      },
+      allowNull: false,
     },
   },
   {
@@ -26,6 +20,17 @@ Friend.init(
     freezeTableName: true,
     underscored: true,
     modelName: "friend",
+    validate: {
+      checkFriendOrder() {
+        if (this.user_id1 > this.user_id2) {
+          const temp = this.user_id1;
+          this.user_id1 = this.user_id2;
+          this.user_id2 = temp;
+        }else if(this.user_id1 = this.user_id2){
+            throw new Error('User IDs cannot be identical');
+        }
+      },
+    },
   }
 );
 

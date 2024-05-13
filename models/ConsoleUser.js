@@ -7,6 +7,7 @@ ConsoleUser.init(
   {
     user_id: {
       type: DataTypes.INTEGER,
+      primaryKey: true,
       references: {
         model: "user",
         key: "id",
@@ -14,6 +15,7 @@ ConsoleUser.init(
     },
     console_id: {
       type: DataTypes.INTEGER,
+      primaryKey: true,
       allowNull: false,
     },
   },
@@ -22,7 +24,7 @@ ConsoleUser.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: "friend",
+    modelName: "consoleUser",
   }
 );
 

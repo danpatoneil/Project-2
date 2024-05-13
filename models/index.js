@@ -32,12 +32,21 @@ Controller.belongsToMany(User, {
 });
 
 User.hasMany(Friend, {
-    foreignKey: 'user_id',
+    foreignKey: 'user_id1',
+    onDelete: 'CASCADE'
+});
+
+User.hasMany(Friend, {
+    foreignKey: 'user_id2',
     onDelete: 'CASCADE'
 });
 
 Friend.belongsTo(User, {
-    foreignKey: 'user_id'
+    foreignKey: 'user_id1'
+});
+
+Friend.belongsTo(User, {
+    foreignKey: 'user_id2'
 });
 
 ConsoleController.belongsTo(Controller, {
@@ -48,23 +57,23 @@ Controller.hasMany(ConsoleController, {
     foreignKey: 'controller_id'
 });
 
-ConsoleUser.belongsTo(User, {
-    foreignKey: 'user_id'
-});
+// ConsoleUser.belongsTo(User, {
+//     foreignKey: 'user_id'
+// });
 
-User.hasMany(ConsoleUser, {
-    foreignKey: 'user_id',
-    onDelete: 'CASCADE'
-});
+// User.hasMany(ConsoleUser, {
+//     foreignKey: 'user_id',
+//     onDelete: 'CASCADE'
+// });
 
-GameUser.belongsTo(User, {
-    foreignKey: 'user_id'
-});
+// GameUser.belongsTo(User, {
+//     foreignKey: 'user_id'
+// });
 
-User.hasMany(GameUser, {
-    foreignKey: 'user_id',
-    onDelete: 'CASCADE'
-});
+// User.hasMany(GameUser, {
+//     foreignKey: 'user_id',
+//     onDelete: 'CASCADE'
+// });
 
 
 module.exports = { User, Controller, Party, Friend, GameUser, ConsoleUser, ConsoleController };

@@ -7,6 +7,7 @@ ConsoleController.init(
   {
     controller_id: {
       type: DataTypes.INTEGER,
+      primaryKey: true,
       references: {
         model: "controller",
         key: "id",
@@ -14,6 +15,7 @@ ConsoleController.init(
     },
     console_id: {
       type: DataTypes.INTEGER,
+      primaryKey: true,
       allowNull: false,
     },
   },
@@ -22,7 +24,7 @@ ConsoleController.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: "friend",
+    modelName: "consoleController",
   }
 );
 

@@ -7,10 +7,16 @@ GameUser.init(
   {
     user_id: {
       type: DataTypes.INTEGER,
+      primaryKey: true,
       references: {
         model: "user",
         key: "id",
       },
+    },
+    game_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
     },
   },
   {
@@ -18,7 +24,7 @@ GameUser.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: "friend",
+    modelName: "gameUser",
   }
 );
 
