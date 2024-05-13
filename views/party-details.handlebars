@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-md-6">
+    <h2>{{partyName}}</h2>
+    <!-- Add your party details content here -->
+  </div>
+  <div class="col-md-6">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModal">
+      Search Players
+    </button>
+
+    <!-- Add the modal code here -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="searchModalLabel">Search Players</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="search-players-form">
+                <div class="mb-3">
+                <label for="search" class="form-label">Search</label>
+                <input type="text" class="form-control" id="search" name="search" required>
+                </div>
+                <div class="mb-3">
+                <label for="searchBy" class="form-label">Search By</label>
+                <select class="form-select" id="searchBy" name="searchBy" required>
+                  <option value="username">Username</option>
+                  <option value="email">Email</option>
+                </select>
+                </div>
+              <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    <h2>Players List</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Level</th>
+          <th>Class</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Add your players list content here -->
+      </tbody>
+    </table>
+    <table class="table table-striped" id="playersTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Level</th>
+          <th>Class</th>
+          <th>Game</th>
+          <th>Console</th>
+          <th>Controllers</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each players}}
+        <tr>
+          <td>{{name}}</td>
+          <td>{{level}}</td>
+          <td>{{class}}</td>
+          <td>{{game}}</td>
+          <td>{{console}}</td>
+          <td>{{controllers}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
