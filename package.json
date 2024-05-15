@@ -4,7 +4,8 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "start": "node index.js "
+        "start": "node index.js ",
+        "seed": "node seeds/seed.js"
     },
     "author": "Team 4: Dan, Katie, and Aaron",
     "license": "MIT",
@@ -13,6 +14,15 @@
         "apicalypse": "^0.2.0",
         "express": "^4.17.1",
         "mysql2": "^2.2.5",
-        "sequelize": "^6.3.5"
+        "sequelize": "^6.3.5",
+        "bcrypt": "^5.0.0",
+        "connect-session-sequelize": "^7.0.4",
+        "express-handlebars": "^5.2.0",
+        "express-session": "^1.17.1"
+    },
+    "devDependencies": {
+      "eslint": "^7.12.1",
+      "eslint-config-prettier": "^6.15.0",
+      "prettier": "^2.1.2"
     }
 }
