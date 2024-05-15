@@ -4,12 +4,15 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "igdb": "node igdb.js "
+        "start": "node index.js "
     },
     "author": "Team 4: Dan, Katie, and Aaron",
     "license": "MIT",
     "dependencies": {
         "dotenv": "^8.2.0",
-        "apicalypse": "^0.2.0"
+        "apicalypse": "^0.2.0",
+        "express": "^4.17.1",
+        "mysql2": "^2.2.5",
+        "sequelize": "^6.3.5"
     }
 }

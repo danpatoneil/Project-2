@@ -1,4 +1,5 @@
 const igdb = require('apicalypse').default;
+const platformDict = require('./platformDictionary');
 require('dotenv').config();
 
 const apiAccess = {
@@ -11,20 +12,25 @@ const apiAccess = {
     }
 };
 
-async function gameQuery (keyword){
+async function gameQuery (keyword, platform){    
+    let whereField;
     
-    
+    if(Number.isInteger(platform)){
+        whereField = "platforms=("+platform+")"
+    }else if(typeof platform === "string"){
+        let x =platformDict.idFromValue(platform);
+        whereField =  ((x === undefined) ? undefined : "platforms=("+x+")");
+    }else{
+        whereField = undefined;
+    } 
+
     try{
-        console.log(keyword);
         const response = await igdb(apiAccess)
             .fields('name,cover,platforms')
             .search(keyword)
-            .where(`platforms=()`)
+            .where(whereField)
             .request('/games');
-        console.log('Start of Game Query ' + keyword);
-        console.log(response.data);
-        console.log('Énd of Query');
-        //dataProcessor(response.data);
+        return response.data;
     } catch (err){
         console.log('Game not found. '+ err);
     }
@@ -78,9 +84,9 @@ async function platformIdQuery (platformId){
             .fields('name, abbreviation, alternative_name, platform_logo')
             .where(`id=${platformId}`)
             .request('/platforms');
-        console.log('Start of Platform ID Query');
-        console.log(response.data);
-        console.log('Énd of Platform ID Query');
+        // console.log('Start of Platform ID Query');
+        // console.log(response.data);
+        // console.log('Énd of Platform ID Query');
     } catch (err){
         console.log('Platform not found. '+ err);
     }
@@ -113,4 +119,11 @@ function dataProcessor(data){
     }
 }
 
-gameQuery("Smash Bros");
+module.exports ={
+    gameIdQuery: gameIdQuery,
+    gameQuery: gameQuery,
+    coverQuery: coverQuery,
+    platformIdQuery: platformIdQuery,
+    platformQuery: platformQuery,
+    logoQuery: logoQuery
+};
