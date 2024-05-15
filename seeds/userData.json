@@ -1,36 +1,36 @@
 [
   {
-    "name": "Dave",
+    "username": "Dave",
     "email": "dave@example.com",
     "password": "password12345"
   },
   {
-    "name": "Mike",
+    "username": "Mike",
     "email": "mike@example.com",
     "password": "password12345"
   },
   {
-    "name": "John",
+    "username": "John",
     "email": "jj@example.com",
     "password": "password12345"
   },
   {
-    "name": "Romesh",
+    "username": "Romesh",
     "email": "rome@example.com",
     "password": "password12345"
   },
   {
-    "name": "Maddy",
+    "username": "Maddy",
     "email": "madgirl@example.com",
     "password": "password12345"
   },
   {
-    "name": "Caitlyn",
+    "username": "Caitlyn",
     "email": "kittycat@example.com",
     "password": "password12345"
   },
   {
-    "name": "Matt",
+    "username": "Matt",
     "email": "mstaff@example.com",
     "password": "password12345"
   }

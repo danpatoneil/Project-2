@@ -8,10 +8,28 @@ Friend.init(
     user_id1: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      primaryKey: true,
+      references: {
+        model: "user",
+        key: "id",
+      },
     },
     user_id2: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      primaryKey: true,
+      references: {
+        model: "user",
+        key: "id",
+      },
+      validate: {
+        checkSameID(user_id2) {
+            console.log(user_id2);
+          if(this.user_id1 === user_id2){
+              throw new Error('User IDs cannot be identical');
+          }
+        },
+      },
     },
   },
   {
@@ -20,17 +38,6 @@ Friend.init(
     freezeTableName: true,
     underscored: true,
     modelName: "friend",
-    validate: {
-      checkFriendOrder() {
-        if (this.user_id1 > this.user_id2) {
-          const temp = this.user_id1;
-          this.user_id1 = this.user_id2;
-          this.user_id2 = temp;
-        }else if(this.user_id1 = this.user_id2){
-            throw new Error('User IDs cannot be identical');
-        }
-      },
-    },
   }
 );
 

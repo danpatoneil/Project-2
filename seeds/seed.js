@@ -6,12 +6,12 @@ const partyData = require('./partyData.json');
 const controllerData = require('./controllerData.json');
 const friendData = require('./friendData.json');
 const consoleControllerData = require('./consoleControllerData.json');
-// const gameUserData = require('./gameUserData.json');
 
 const seedDatabase = async () => {
   await sequelize.sync({ force: true });
 
   const users = await User.bulkCreate(userData, {
+    validate: true,
     individualHooks: true,
     returning: true,
   });
@@ -25,11 +25,13 @@ const seedDatabase = async () => {
   }
 
   const controllers = await Controller.bulkCreate(controllerData, {
+    validate: true,
     individualHooks: true,
     returning: true,
   });
 
   await Friend.bulkCreate(friendData, {
+    validate: true,
     individualHooks: true,
     returning: true,
   })
@@ -55,14 +57,27 @@ const seedDatabase = async () => {
   for (const user of users) {
     const roll = Math.floor(Math.random() * 500);
     for (let i = 0; i < 3; i++) {
-        console.log(user.id);
-        console.log(roll+i*3);
+        // console.log(user.id);
+        // console.log(roll+i*3);
         await GameUser.create({
             user_id: user.id,
             game_id: roll+i*3,
         })
     }
   }
+
+  const user1 = await User.findByPk(1, {
+    include: [
+        {model: User, as :"friends"}
+    ]
+  });
+  for (const user of user1.friends) {
+    console.log(user.dataValues.username);
+  }
+
+
+
+
   process.exit(0);
 };
 
