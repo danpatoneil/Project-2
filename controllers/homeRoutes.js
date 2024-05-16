@@ -5,7 +5,6 @@ const withAuth = require('../utils/auth');
 
 router.get('/', withAuth, async (req, res) => {
   try {
-    console.log('Homepage  '+ req.session.user_id);
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
@@ -21,7 +20,27 @@ router.get('/', withAuth, async (req, res) => {
       logged_in: true
     });
   } catch (err) {
-    console.log('Homepage ERROR');
+    res.status(500).json(err);
+  }
+});
+
+router.get('/inventory', withAuth, async (req, res) => {
+  try {
+    // Find the logged in user based on the session ID
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ['password'] },
+      // include: [{ model: User }],
+    });
+
+    console.log(userData);
+
+    const user = userData.get({ plain: true });
+
+    res.render('inventory', {
+      ...user,
+      logged_in: true
+    });
+  } catch (err) {
     res.status(500).json(err);
   }
 });
