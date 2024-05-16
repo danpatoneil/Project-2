@@ -20,3 +20,22 @@ consoleButton.addEventListener('click', () => {
 controllersButton.addEventListener('click', () => {
   controllersModal.style.display = 'block';
 });
+
+// Get references to the close buttons
+const closeButtonGames = document.querySelector('#gamesModal .close');
+const closeButtonConsole = document.querySelector('#consoleModal .close');
+const closeButtonControllers = document.querySelector('#controllersModal .close');
+
+// Add event listeners to the close buttons
+closeButtonGames.addEventListener('click', () => {
+  gamesModal.style.display = 'none';
+});
+
+closeButtonConsole.addEventListener('click', () => {
+  consoleModal.style.display = 'none';
+});
+
+closeButtonControllers.addEventListener('click', () => {
+  controllersModal.style.display = 'none';
+});
+
