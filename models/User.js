@@ -49,12 +49,14 @@ User.init(
         );
         return updatedUserData;
       },
-      beforeBulkCreate: async (users) => {
-        for (const user of users) {
-          user.password = await bcrypt.hash(user.password, 10);
-        }
-        return users;
-      },
+      // beforeBulkCreate: async (users) => {
+      //   for (const user of users) {
+      //     console.log(user.password);
+      //     user.password = await bcrypt.hash(user.password, 10);
+      //     console.log(user.password);
+      //   }
+      //   return users;
+      // },
     },
     sequelize,
     timestamps: false,

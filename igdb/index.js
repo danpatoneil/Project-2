@@ -1,5 +1,5 @@
-const igdb = require('./igdb/igdb');
-const allowedPlats = require('./igdb/platformDictionary');
+const igdb = require('./igdb');
+const allowedPlats = require('./platformDictionary');
 const workingData ={
     names: new Array(),
     ids: new Array(),
