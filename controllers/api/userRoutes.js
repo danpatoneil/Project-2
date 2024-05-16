@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, GameUser, Controller, ConsoleUser,  } = require('../../models');
+const { User, GameUser, Controller, ConsoleUser } = require('../../models');
 
 router.get('/:id', async (req, res) => {
     try {
@@ -34,7 +34,7 @@ router.get('/hardware/:id', async (req, res) => {
         console.log('starting hardware req');
         const userData = await User.findByPk(req.params.id, {
             attributes: { exclude: "password" },
-            include: [{ model: Controller }]
+            include: [{ model: Controller }, { model: ConsoleUser }, { model: GameUser }]
         })
         res.status(200).json(userData);
     } catch (error) {
