@@ -16,29 +16,29 @@ Party.belongsTo(User, {
 });
 
 User.belongsToMany(Party, {
-    through: 'Party-Goers'
+    through: 'PartyGoers'
 })
 
 Party.belongsToMany(User, {
-    through: 'Party-Goers'
+    through: 'PartyGoers'
 })
 
 User.belongsToMany(Controller, {
-    through: 'User-Controllers'
+    through: 'UserControllers'
 });
 
 Controller.belongsToMany(User, {
-    through: 'User-Controllers'
+    through: 'UserControllers'
 });
 
 User.belongsToMany(User, {
-    foreignKey: "user_id1",
+    foreignKey: "user_id",
     through: "friend",
     as: "user"
 });
 
 User.belongsToMany(User, {
-    foreignKey: "user_id2",
+    foreignKey: "friend_id",
     through: "friend",
     as: "friends"
 });

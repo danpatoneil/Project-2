@@ -19,6 +19,7 @@ User.init(
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     email: {
       type: DataTypes.STRING,
@@ -48,12 +49,6 @@ User.init(
           10
         );
         return updatedUserData;
-      },
-      beforeBulkCreate: async (users) => {
-        for (const user of users) {
-          user.password = await bcrypt.hash(user.password, 10);
-        }
-        return users;
       },
     },
     sequelize,

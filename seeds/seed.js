@@ -19,16 +19,17 @@ const seedDatabase = async () => {
   for (const party of partyData) {
     // console.log(party)
     // generate new party
+    const owner_id = users[Math.floor(Math.random() * users.length)].id;
     const newParty = await Party.create({
       ...party,
-      user_id: users[Math.floor(Math.random() * users.length)].id,
+      owner_id: owner_id,
     });
     // console.log(newParty)
     const uniqueIDs = []
     // generate 3 unique id's
     do{
         const newID = users[Math.floor(Math.random() * users.length)].id
-        if(!uniqueIDs.includes(newID)) uniqueIDs.push(newID);
+        if(!uniqueIDs.includes(newID)&&newID!==owner_id) uniqueIDs.push(newID);
     }
     while(uniqueIDs.length<3);
     // console.log(`${uniqueIDs.length} unique id's generated`)
@@ -37,6 +38,12 @@ const seedDatabase = async () => {
         // console.log(`adding user ${id} to party ${newParty.id}`);
         newParty.addUser(id);
     }
+    // console.log("party is");
+    // console.log(newParty);
+    // console.log("unique ID's are");
+    // console.log(uniqueIDs);
+    // console.log("user list is");
+    // console.log(await newParty.getUsers())
   }
   // bulk create new controllers
   const controllers = await Controller.bulkCreate(controllerData, {
