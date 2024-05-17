@@ -50,3 +50,23 @@ closeButtonAddItem.addEventListener('click', () => {
   addItemModal.style.display = 'none';
 });
 
+// save button on the add item modal
+const saveButton = document.querySelector('#saveButton');
+saveButton.addEventListener('click', () => {
+  // Get the values from the form
+  const itemName = document.querySelector('#itemName').value.trim();
+  const itemCategory = document.querySelector('#itemCategory').value.trim();
+
+  // Create a new item object
+  const newItem = {
+    name: itemName,
+    category: itemCategory,
+  };
+
+  // Save the new item
+  saveItem(newItem);
+
+  // Close the modal
+  addItemModal.style.display = 'none';
+});
+
