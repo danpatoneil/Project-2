@@ -26,7 +26,7 @@ async function gameQuery (keyword, platform){
 
     try{
         const response = await igdb(apiAccess)
-            .fields('name,cover,platforms')
+            .fields('id, name, cover')
             .search(keyword)
             .where(whereField)
             .request('/games');
@@ -56,9 +56,10 @@ async function coverQuery (coverId){
             .fields('url')
             .where(`id=${coverId}`)
             .request('/covers');
-        console.log('Start of Cover ID Query');
-        console.log(response.data);
-        console.log('Énd of Cover ID Query');
+        // console.log('Start of Cover ID Query');
+        // console.log(response.data);
+        // console.log('Énd of Cover ID Query');
+        return response.data;
     } catch (err){
         console.log('Cover not available. '+ err);
     }
@@ -87,6 +88,7 @@ async function platformIdQuery (platformId){
         // console.log('Start of Platform ID Query');
         // console.log(response.data);
         // console.log('Énd of Platform ID Query');
+        return response.data;
     } catch (err){
         console.log('Platform not found. '+ err);
     }
@@ -107,17 +109,17 @@ async function logoQuery (logoId){
 };
 
 
-function dataProcessor(data){
-    const arraySize = data.length;
-    console.log(arraySize);
-    for(const obj of data){
-        let keys = obj.platforms;
-        console.log(keys);
-        for(const key of keys){
-            platformIdQuery(key);
-        }
-    }
-}
+// function dataProcessor(data){
+//     const arraySize = data.length;
+//     console.log(arraySize);
+//     for(const obj of data){
+//         let keys = obj.platforms;
+//         console.log(keys);
+//         for(const key of keys){
+//             platformIdQuery(key);
+//         }
+//     }
+// }
 
 module.exports ={
     gameIdQuery: gameIdQuery,

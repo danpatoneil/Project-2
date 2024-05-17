@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node server.js ",
         "seed": "node seeds/seed.js",
-        "igdb": "node igdb.js"
+        "igdb": "node igdb/index.js"
     },
     "author": "Team 4: Dan, Katie, and Aaron",
     "license": "MIT",

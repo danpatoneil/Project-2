@@ -11,8 +11,6 @@ router.get('/', withAuth, async (req, res) => {
       // include: [{ model: User }],
     });
 
-    console.log(userData);
-
     const user = userData.get({ plain: true });
 
     res.render('dashboard', {
@@ -31,8 +29,6 @@ router.get('/inventory', withAuth, async (req, res) => {
       attributes: { exclude: ['password'] },
       // include: [{ model: User }],
     });
-
-    console.log(userData);
 
     const user = userData.get({ plain: true });
 
