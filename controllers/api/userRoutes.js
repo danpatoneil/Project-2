@@ -16,21 +16,6 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.get('/', async (req, res) => {
-    try {
-        const userData = await User.findAll({
-            attributes: {
-                exclude: "password"
-            }
-        })
-        // console.log(userData);
-        res.status(200).json(userData);
-    } catch (error) {
-            res.status(400).json(error);
-    }
-});
-
-
 // add user delete route if time allows
 // router.delete('/')
 
@@ -47,15 +32,10 @@ router.post('/', async (req, res) => {
     //   req.session.user_id = userData.id;
     //   req.session.logged_in = true;
 
-      res.status(200).json(userData);
+      res.status(200).json({id:userData.dataValues.id, username:userData.dataValues.username, email:userData.dataValues.email});
     // });
   } catch (err) {
     res.status(400).json(err);
-  }
-  try {
-
-  } catch (error) {
-    res.status(400).json(error);
   }
 });
 

@@ -1,25 +1,15 @@
 const router = require("express").Router();
 const { User, Friend } = require("../../models");
+const { findByPk } = require("../../models/User");
 const withAuth = require('../../utils/auth');
 
-//returns a list of user objects that consist of the user's id, username, and email
-// need to figure out how to only have it return id's of users that are friends with a logged in user
-router.get("/:id", async (req, res) => {
+//returns a list of users without passwords that are friends with the logged in user
+router.get("/", async (req, res) => {
+    const currentSession = { user_id: 6, logged_in: true };
+    //const currentSession = req.session;
   try {
-    const friendList = await User.findByPk(req.params.id, {
-      include: [
-        {
-          model: User,
-          as: "friends",
-          attributes: ["id", "username", "email"],
-        },
-      ],
-    });
-    const friends = friendList.friends.map((user) => {
-      const { id, username, email } = user.dataValues;
-      return { id, username, email };
-    });
-    // console.log(friends)
+    const user = await User.findByPk(currentSession.user_id)
+    const friends = await user.getFriends({attributes:{exclude: 'password'}});
     res.status(200).json(friends);
   } catch (error) {
     return res.status(400).json(error);
@@ -27,7 +17,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //returns a list of users whose email or username match the given input
-router.get("/find/:input", async (req, res) => {
+router.get("/:input", async (req, res) => {
   try {
     if (req.params.input) {
       const listEmail = await User.findAll({
@@ -59,17 +49,18 @@ router.get("/find/:input", async (req, res) => {
 router.post('/:id', async (req, res) => {
     const currentUser = {user_id: 6, logged_in: true};
   try {
-    // console.log(req.body)
-    const newFriend = await Friend.create({
-      friend_id: req.params.id,
-      user_id: currentUser.user_id,
+    //check if user is their own friend, or if the id is already on their friends list
+    if(currentUser.user_id==req.params.id) return res.status(400).json({message:"You cannot be friends with yourself"});
+    const user = await User.findByPk(currentUser.user_id);
+    const friends = await user.getFriends()
+    const friendIDs = await friends.map(user=> user.dataValues.id)
+    if(friendIDs.includes(parseInt(req.params.id))) return res.status(400).json({message:"You are already friends with this user"});
+    const friend = await User.findByPk(req.params.id,{
+        attributes: {exclude: 'password'}
     });
-    await Friend.create({
-      user_id: req.params.id,
-      friend_id: currentUser.user_id,
-    });
-
-    return res.status(200).json(newFriend);
+    await friend.addFriend(user.dataValues.id);
+    await user.addFriend(req.params.id)
+    return res.status(200).json(friend);
   } catch (err) {
     return res.status(400).json(err);
   }
