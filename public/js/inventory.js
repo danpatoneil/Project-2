@@ -1,0 +1,72 @@
+// Get references to the buttons
+const gamesButton = document.querySelector('#gamesModalButton');
+const consoleButton = document.querySelector('#consoleModalButton');
+const controllersButton = document.querySelector('#controllersModalButton');
+const addItemButton = document.querySelector('#addItemModalButton');
+
+// Get references to the modals
+const gamesModal = document.querySelector('#gamesModal');
+const consoleModal = document.querySelector('#consoleModal');
+const controllersModal = document.querySelector('#controllersModal');
+const addItemModal = document.querySelector('#addItemModal');
+
+// Add event listeners to the buttons
+gamesButton.addEventListener('click', () => {
+  gamesModal.style.display = 'block';
+});
+
+consoleButton.addEventListener('click', () => {
+  consoleModal.style.display = 'block';
+});
+
+controllersButton.addEventListener('click', () => {
+  controllersModal.style.display = 'block';
+});
+
+addItemButton.addEventListener('click', () => {
+  addItemModal.style.display = 'block';
+});
+
+// Get references to the close buttons
+const closeButtonGames = document.querySelector('#gamesModal .close');
+const closeButtonConsole = document.querySelector('#consoleModal .close');
+const closeButtonControllers = document.querySelector('#controllersModal .close');
+const closeButtonAddItem = document.querySelector('#addItemModal .close');
+
+// Add event listeners to the close buttons
+closeButtonGames.addEventListener('click', () => {
+  gamesModal.style.display = 'none';
+});
+
+closeButtonConsole.addEventListener('click', () => {
+  consoleModal.style.display = 'none';
+});
+
+closeButtonControllers.addEventListener('click', () => {
+  controllersModal.style.display = 'none';
+});
+
+closeButtonAddItem.addEventListener('click', () => {
+  addItemModal.style.display = 'none';
+});
+
+// save button on the add item modal
+const saveButton = document.querySelector('#saveButton');
+saveButton.addEventListener('click', () => {
+  // Get the values from the form
+  const itemName = document.querySelector('#itemName').value.trim();
+  const itemCategory = document.querySelector('#itemCategory').value.trim();
+
+  // Create a new item object
+  const newItem = {
+    name: itemName,
+    category: itemCategory,
+  };
+
+  // Save the new item
+  saveItem(newItem);
+
+  // Close the modal
+  addItemModal.style.display = 'none';
+});
+

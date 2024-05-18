@@ -16,17 +16,23 @@
   <div class="container">
     <h1 class="mb-4 text-center" style="color: red;"><strong>Inventory</strong></h1>
 
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#gamesModal">
+    <div class="d-flex justify-content-between">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#gamesModal">
       Games
-    </button>
+      </button>
 
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#consoleModal">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#consoleModal">
       Console
-    </button>
+      </button>
 
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#controllersModal">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#controllersModal">
       Controllers
+      </button>
+
+       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal">
+      Add Item
     </button>
+    </div>
 
     <!-- Games Modal -->
     <div class="modal fade" id="gamesModal" tabindex="-1" role="dialog" aria-labelledby="gamesModalLabel" aria-hidden="true">
@@ -88,11 +94,6 @@
       </div>
     </div>
 
-  </div>
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal">
-    Add Item
-  </button>
-
   <!-- Add Item Modal -->
   <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -104,8 +105,17 @@
           </button>
         </div>
         <div class="modal-body">
-          
-          <!-- Add your add item form here -->
+          <!-- Add Item Form -->
+          <form>
+            <div class="form-group">
+              <label for="itemName">Item Name</label>
+              <input type="text" class="form-control" id="itemName" placeholder="Enter item name">
+            </div>
+            <div class="form-group">
+              <label for="itemCategory">Item Category</label>
+              <input type="text" class="form-control" id="itemCategory" placeholder="Enter item category">
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
