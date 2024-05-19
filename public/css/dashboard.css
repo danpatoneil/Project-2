@@ -9,13 +9,15 @@
 }
 
 body {
-  background-image: url('/public/images/bgrd\ pic.jpg');
+  background-image: url('../images/bgrdpic.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-
+.modal-body{
+  color: #000;
+}
 
 @media screen and (min-width: 768px) {
 } /* CSS styles for tablets in landscape mode */
