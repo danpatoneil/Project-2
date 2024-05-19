@@ -1,7 +1,8 @@
 const router = require('express').Router();
-const { User, GameUser, Controller, ConsoleUser,  } = require('../../models');
+const { User } = require('../../models');
+const withAuth = require('../../utils/auth');
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', withAuth, async (req, res) => {
     try {
         const userData = await User.findByPk(req.params.id, {
             attributes: {
@@ -15,67 +16,40 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.get('/', async (req, res) => {
-    try {
-        const userData = await User.findAll({
-            attributes: {
-                exclude: "password"
-            }
-        })
-        // console.log(userData);
-        res.status(200).json(userData);
-    } catch (error) {
-            res.status(400).json(error);
-    }
+
+// add user delete route if time allows
+// router.delete('/')
+
+//add user change route for parameters
+// router.put('/', withAuth, async (req, res) => {})
+
+router.post('/', withAuth, async (req, res) => {
+  try {
+    const userData = await User.create(req.body);
+
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.logged_in = true;
+
+      res.status(200).json({id:userData.dataValues.id, username:userData.dataValues.username, email:userData.dataValues.email});
+    });
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
-router.get('/hardware/:id', async (req, res) => {
-    try {
-        console.log('starting hardware req');
-        const userData = await User.findByPk(req.params.id, {
-            attributes: { exclude: "password" },
-            include: [{ model: Controller }]
-        })
-        res.status(200).json(userData);
-    } catch (error) {
-            res.status(400).json(error);
-    }
-});
-
-// router.post('/', async (req, res) => {
-//   // try {
-//   //   const userData = await User.create(req.body);
-
-//   //   req.session.save(() => {
-//   //     req.session.user_id = userData.id;
-//   //     req.session.logged_in = true;
-
-//   //     res.status(200).json(userData);
-//   //   });
-//   // } catch (err) {
-//     // res.status(400).json(err);
-//   // }
-//   try {
-
-//   } catch (error) {
-//     res.status(400).json(error);
-//   }
-// });
-
-router.post('/login', async (req, res) => {
-    
- try {
-    const userData = await User.findOne({ where: { username: req.body.username } });
+router.post('/login', withAuth, async (req, res) => {
+  try {
+    const userData = await User.findOne({ where: { email: req.body.email } });
 
     if (!userData) {
       res
         .status(400)
-        .json({ message: 'Incorrect email or password, please try again' });
+        .json({ message: 'error 1' });
       return;
     }
 
-    const validPassword = await userData.checkPassword(req.body.password);
-
+    const validPassword = userData.checkPassword(req.body.password);
     if (!validPassword) {
       res
         .status(400)
@@ -87,7 +61,7 @@ router.post('/login', async (req, res) => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
 
-      res.json({ user: userData, message: 'You are now logged in!' });
+      res.json({ user: {id:userData.id, username:userData.username}, message: 'You are now logged in!' });
     });
 
   } catch (err) {
@@ -95,8 +69,11 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.post('/logout', (req, res) => {
-  if (req.session.logged_in) {
+router.post('/logout', withAuth, (req, res) => {
+    // const currentUser = {user_id: 6, logged_in: true};
+    const currentUser = req.session;
+    if (currentUser.logged_in) {
+        // if (1==1) {
     req.session.destroy(() => {
       res.status(204).end();
     });

@@ -5,7 +5,7 @@ class Friend extends Model {}
 
 Friend.init(
   {
-    user_id1: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -14,7 +14,7 @@ Friend.init(
         key: "id",
       },
     },
-    user_id2: {
+    friend_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
