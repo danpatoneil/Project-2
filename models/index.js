@@ -16,11 +16,11 @@ Party.belongsTo(User, {
 });
 
 User.belongsToMany(Party, {
-    through: 'PartyGoers'
+    through: 'partygoers'
 })
 
 Party.belongsToMany(User, {
-    through: 'PartyGoers'
+    through: 'partygoers'
 })
 
 User.belongsToMany(Controller, {

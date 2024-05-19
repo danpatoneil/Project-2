@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const { User, GameUser, Controller, ConsoleUser } = require('../../models');
+const { User } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', withAuth, async (req, res) => {
     try {
         const userData = await User.findByPk(req.params.id, {
             attributes: {
@@ -16,30 +16,29 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+
 // add user delete route if time allows
 // router.delete('/')
 
 //add user change route for parameters
 // router.put('/', withAuth, async (req, res) => {})
 
-router.post('/', async (req, res) => {
-    // req.session.user_id = 6;
-    // req.session.logged_in = true;
+router.post('/', withAuth, async (req, res) => {
   try {
     const userData = await User.create(req.body);
 
-    // req.session.save(() => {
-    //   req.session.user_id = userData.id;
-    //   req.session.logged_in = true;
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.logged_in = true;
 
       res.status(200).json({id:userData.dataValues.id, username:userData.dataValues.username, email:userData.dataValues.email});
-    // });
+    });
   } catch (err) {
     res.status(400).json(err);
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', withAuth, async (req, res) => {
   try {
     const userData = await User.findOne({ where: { email: req.body.email } });
 
@@ -50,7 +49,7 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-    const validPassword = await userData.checkPassword(req.body.password);
+    const validPassword = userData.checkPassword(req.body.password);
     if (!validPassword) {
       res
         .status(400)
@@ -58,12 +57,12 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-    // req.session.save(() => {
-    //   req.session.user_id = userData.id;
-    //   req.session.logged_in = true;
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.logged_in = true;
 
       res.json({ user: {id:userData.id, username:userData.username}, message: 'You are now logged in!' });
-    // });
+    });
 
   } catch (err) {
     res.status(400).json(err);
@@ -71,13 +70,13 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/logout', withAuth, (req, res) => {
-    const currentUser = {user_id: 6, logged_in: true};
-    // const currentUser = req.session;
+    // const currentUser = {user_id: 6, logged_in: true};
+    const currentUser = req.session;
     if (currentUser.logged_in) {
         // if (1==1) {
-    // req.session.destroy(() => {
+    req.session.destroy(() => {
       res.status(204).end();
-    // });
+    });
   } else {
     res.status(404).end();
   }
