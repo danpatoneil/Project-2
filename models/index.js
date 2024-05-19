@@ -6,6 +6,7 @@ const ConsoleController = require('./ConsoleController');
 const GameUser = require('./GameUser');
 const ConsoleUser = require('./ConsoleUser');
 
+//user is connected to party in two ways, one for the owner of the party and one for the party goers
 User.hasMany(Party, {
     foreignKey: 'owner_id',
     onDelete: 'CASCADE'
@@ -22,7 +23,7 @@ User.belongsToMany(Party, {
 Party.belongsToMany(User, {
     through: 'partygoers'
 })
-
+//controller seems like it should be m:1 but we wanted to incorporate the ability to have multiple users share one controller
 User.belongsToMany(Controller, {
     through: 'UserControllers'
 });
@@ -31,6 +32,7 @@ Controller.belongsToMany(User, {
     through: 'UserControllers'
 });
 
+//user is connected to user with friend as a junction table
 User.belongsToMany(User, {
     foreignKey: "user_id",
     through: "friend",
@@ -42,24 +44,6 @@ User.belongsToMany(User, {
     through: "friend",
     as: "friends"
 });
-
-// User.hasMany(Friend, {
-//     foreignKey: 'user_id1',
-//     onDelete: 'CASCADE'
-// });
-
-// User.hasMany(Friend, {
-//     foreignKey: 'user_id2',
-//     onDelete: 'CASCADE'
-// });
-
-// Friend.belongsTo(User, {
-//     foreignKey: 'user_id1'
-// });
-
-// Friend.belongsTo(User, {
-//     foreignKey: 'user_id2'
-// });
 
 ConsoleController.belongsTo(Controller, {
     foreignKey: 'controller_id'
