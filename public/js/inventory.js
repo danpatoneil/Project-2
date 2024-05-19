@@ -25,6 +25,7 @@ controllersButton.addEventListener('click', () => {
 
 addItemButton.addEventListener('click', () => {
   addItemModal.style.display = 'block';
+  
 });
 
 // Get references to the close buttons
@@ -50,23 +51,77 @@ closeButtonAddItem.addEventListener('click', () => {
   addItemModal.style.display = 'none';
 });
 
+
+const itemForm = document.querySelector('#addItemFormBody');
 // save button on the add item modal
 const saveButton = document.querySelector('#saveButton');
-saveButton.addEventListener('click', () => {
+saveButton.addEventListener('click', async (event) => {
+  //event.preventDefault();
+
   // Get the values from the form
   const itemName = document.querySelector('#itemName').value.trim();
   const itemCategory = document.querySelector('#itemCategory').value.trim();
+  itemForm.innerHTML = "";
 
+
+  if(itemCategory === 'Controller'){
+
+  }else{
+    const response = await fetch('/igdb/', {
+          method: 'POST',
+          body: JSON.stringify({ itemName, itemCategory }),
+          headers: { 'Content-Type': 'application/json' }
+      });
+ 
+      if(response.ok){
+        const data = await response.json();
+        
+
+        const wrapper = document.createElement('div');
+        
+        for(i = 0; i< data.length; i++){
+          let div = document.createElement('div');
+          div.setAttribute('class', 'form-check');
+          let input = document.createElement('input');
+          let label = document.createElement('label');
+          input.setAttribute('type', 'radio');
+          input.setAttribute('class', 'form-check-input');
+          input.setAttribute('name', 'gameSelection');
+          input.setAttribute('value', `option${i+1}`);
+          label.textContent = data[i].name;
+          div.append(input);
+          div.append(label);
+          wrapper.append(div);
+        }
+        itemForm.append(wrapper);
+        saveButton.textContent = "Save";
+
+
+      }else{
+        console.log('nothing returned');
+      }
+    
+  }
+  
+  
+  
+  
+  
   // Create a new item object
-  const newItem = {
-    name: itemName,
-    category: itemCategory,
-  };
+  // const newItem = {
+  //   name: itemName,
+  //   category: itemCategory,
+  // };
 
-  // Save the new item
-  saveItem(newItem);
+  // // Save the new item
+  // saveItem(newItem);
 
-  // Close the modal
-  addItemModal.style.display = 'none';
+  // // Close the modal
+  // addItemModal.style.display = 'none';
 });
+
+
+
+
+
 
