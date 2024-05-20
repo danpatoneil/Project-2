@@ -4,9 +4,9 @@
   </div>
   <div class="col-md-6">
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModal" id="searchModalButton">
-      Search Players
+      Add friends
     </button>
-    <div class="modal" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -14,24 +14,70 @@
             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form id="search-players-form">
+            <div class="container-fliud">
+            <div class="row">
+                <div class="col-12">
+                    <form id="add-friends">
+                        <select data-mdb-select-init multiple class="center-select form-control" id="friendsList">
+                        </select>
+                        <button type="submit" class="btn btn-primary">Add Friends</button>
+                    </form>
+                </div>
+            </div>
+            </div>
+            {{!-- <form id="search-players-form">
                 <div class="mb-3">
                 <label for="search" class="form-label">Search</label>
                 <input type="text" class="form-control" id="search" name="search" required>
                 </div>
               <button type="submit" class="btn btn-primary">Search</button>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </form> --}}
           </div>
         </div>
       </div>
-    <h2 id="players-list">Players List</h2>
   </div>
-</div>
-    <!-- Your HTML content here -->
 
+</div>
+
+
+    <div class="row">
+        <h2>Invited Players</h2>
+        <div class="col-2">
+    <ul id="invited-list" class="bg-info"></ul>
+    </div>
+    <div class="col-9 bg-info">
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+    </div>
     <script>
         // Define a global variable to store the party object
         var partyData = {{{partyJSON}}};

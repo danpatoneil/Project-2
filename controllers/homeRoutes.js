@@ -84,15 +84,14 @@ router.get("/parties", withAuth, async (req, res) => {
   }
 });
 
-router.get("/party-details/:id", withAuth, async (req, res) => {
+router.get("/party-details/:party_id", withAuth, async (req, res) => {
     try {
         const userData = await User.findByPk(req.session.user_id, {
           attributes: { exclude: ["password"] },
         });
-        const partyData = await Party.findByPk(req.params.id);
-
+        const partyData = await Party.findByPk(req.params.party_id);
         const user = userData.get({ plain: true });
-        const party = partyData.get({ plain: true })
+        const party = partyData.get({ plain: true });
 
         res.render("party-details", {
             ...user,
