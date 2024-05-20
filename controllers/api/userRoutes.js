@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { User } = require('../../models');
 const withAuth = require('../../utils/auth');
 
+//
 router.get('/:id', withAuth, async (req, res) => {
     try {
         const userData = await User.findByPk(req.params.id, {
@@ -15,13 +16,6 @@ router.get('/:id', withAuth, async (req, res) => {
             res.status(400).json(error);
     }
 });
-
-
-// add user delete route if time allows
-// router.delete('/')
-
-//add user change route for parameters
-// router.put('/', withAuth, async (req, res) => {})
 
 router.post('/', withAuth, async (req, res) => {
   try {
@@ -70,10 +64,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/logout', withAuth, (req, res) => {
-    // const currentUser = {user_id: 6, logged_in: true};
-    const currentUser = req.session;
-    if (currentUser.logged_in) {
-        // if (1==1) {
+    if (req.session.logged_in) {
     req.session.destroy(() => {
       res.status(204).end();
     });

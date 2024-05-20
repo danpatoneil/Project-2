@@ -5,10 +5,8 @@ const withAuth = require('../../utils/auth');
 
 //returns a list of users without passwords that are friends with the logged in user
 router.get("/", withAuth, async (req, res) => {
-    const currentSession = { user_id: 6, logged_in: true };
-    //const currentSession = req.session;
   try {
-    const user = await User.findByPk(currentSession.user_id)
+    const user = await User.findByPk(req.session.user_id)
     const friends = await user.getFriends({attributes:{exclude: 'password'}});
     res.status(200).json(friends);
   } catch (error) {
@@ -48,11 +46,10 @@ router.get("/:input", withAuth, async (req, res) => {
 
 // add user id to logged in user's friends list
 router.post('/:id', withAuth, async (req, res) => {
-    const currentUser = {user_id: 6, logged_in: true};
   try {
     //check if user is their own friend, or if the id is already on their friends list
-    if(currentUser.user_id==req.params.id) return res.status(400).json({message:"You cannot be friends with yourself"});
-    const user = await User.findByPk(currentUser.user_id);
+    if(req.session.user_id==req.params.id) return res.status(400).json({message:"You cannot be friends with yourself"});
+    const user = await User.findByPk(req.session.user_id);
     const friends = await user.getFriends()
     const friendIDs = await friends.map(user=> user.dataValues.id)
     if(friendIDs.includes(parseInt(req.params.id))) return res.status(400).json({message:"You are already friends with this user"});
@@ -67,20 +64,19 @@ router.post('/:id', withAuth, async (req, res) => {
   }
 });
 
-// router.delete('/:id', withAuth, async (req, res) => {
+//delete friend from friends list
 router.delete('/:id', withAuth, async (req, res) => {
-    const currentUser = {user_id: 6, logged_in: true};
   try {
     const friendData = await Friend.destroy({
       where: {
         friend_id: req.params.id,
-        user_id: currentUser.user_id,
+        user_id: req.session.user_id,
       },
     });
     const friendDataInverse = await Friend.destroy({
       where: {
         user_id: req.params.id,
-        friend_id: currentUser.user_id,
+        friend_id: req.session.user_id,
       },
     });
 
