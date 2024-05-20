@@ -82,7 +82,7 @@ saveButton.addEventListener('click', async (event) => {
   
  
   const buttonState = saveButton.getAttribute('state');
-  console.log(buttonState);
+  //console.log(buttonState);
   if(buttonState === "search"){
     // Get the values from the form
     const itemName = document.querySelector('#itemName').value.trim();
@@ -110,10 +110,10 @@ saveButton.addEventListener('click', async (event) => {
             let label = document.createElement('label');
             input.setAttribute('type', 'radio');
             input.setAttribute('class', 'form-check-input');
-            input.setAttribute('name', 'gameSelection');
+            input.setAttribute('name', 'Selection');
             input.setAttribute('value', data[i].name);
             label.textContent = data[i].name;
-            input.setAttribute('gameId', data[i].id);
+            input.setAttribute(`${itemCategory.toLowerCase()}Id`, data[i].id);
             div.append(input);
             div.append(label);
             wrapper.append(div);
@@ -134,8 +134,8 @@ saveButton.addEventListener('click', async (event) => {
 
     if(itemCategory.toLowerCase() === 'game'){
       let gameId;
-      const gameChoices = document.getElementsByName('gameSelection');
-      console.log(gameChoices);
+      const gameChoices = document.getElementsByName('Selection');
+      //console.log(gameChoices);
       for(let i =0;i<gameChoices.length;i++){
         if(gameChoices[i].checked){
           console.log(gameChoices[i].value);
@@ -148,6 +148,28 @@ saveButton.addEventListener('click', async (event) => {
       const response = await fetch(`/api/hardware/${itemCategory.toLowerCase()}/${gameId}`, {
         method: 'POST',
         body: JSON.stringify({ game_id: gameId }),
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      saveButton.setAttribute('state', 'search');
+      window.location.reload(true);
+
+    }else if(itemCategory.toLowerCase() === 'console'){
+      let consoleId;
+      const consoleChoices = document.getElementsByName('Selection');
+      //console.log(consoleChoices);
+      for(let i =0;i<consoleChoices.length;i++){
+        if(consoleChoices[i].checked){
+          console.log(consoleChoices[i].value);
+          console.log(consoleChoices[i].getAttribute('consoleId'));
+          consoleId = consoleChoices[i].getAttribute('consoleId');
+        }
+      }
+      itemCategory +='s';
+
+      const response = await fetch(`/api/hardware/${itemCategory.toLowerCase()}/${consoleId}`, {
+        method: 'POST',
+        body: JSON.stringify({ console_id: consoleId }),
         headers: { 'Content-Type': 'application/json' }
       });
 

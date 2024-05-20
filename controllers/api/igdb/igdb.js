@@ -69,7 +69,7 @@ async function coverQuery (coverId){
 async function platformQuery (keyword){
     try{
         const response = await igdb(apiAccess)
-            .fields('name,abbreviation,alternative_name')
+            .fields('name,abbreviation,alternative_name, platform_logo')
             .search(keyword)
             .request('/platforms');
         // console.log('Start of Platform Query');
