@@ -16,7 +16,7 @@
   <div class="container">
     <h1 class="mb-4 text-center" style="color: red;"><strong>Inventory</strong></h1>
 
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-center" style="margin-bottom: 20px;">
       <!-- <button id="gamesModalButton" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#gamesModal">
       Games
       </button>
@@ -29,21 +29,20 @@
       Controllers
       </button> -->
 
-       <button id="addItemModalButton" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addItemModal">
-          <strong>Add New Item</strong>
-        </button>
+      
+      <button id="addItemModalButton" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addItemModal">
+        <strong>Add New Item</strong>
+      </button>
     </div>
 
 
-    <div>
+    <div class="col-md-3 mx-auto" style="background-color: black;">
       <h2>Games</h2>
       <ul id="ownedGamesList"></ul>
-    </div>
-    <div>
+
       <h2>Consoles</h2>
       <ul id="ownedConsolesList"></ul>
-    </div>
-    <div>
+
       <h2>Controllers</h2>
       <ul id="ownedControllersList"></ul>
     </div>
