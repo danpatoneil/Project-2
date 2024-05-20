@@ -46,7 +46,7 @@ async function loadParties() {
             const header = document.createElement('h5')
             header.textContent = party.name;
             link.href = `party-details/${party.id}`;
-            listItem.classList = 'mb-4 text-center'
+            listItem.classList = 'mb-4 text-center list-group-item'
             link.classList = 'mb-4 text-white';
             link.appendChild(header);
             listItem.appendChild(link);
