@@ -29,8 +29,15 @@ router.get("/", withAuth, async (req, res) => {
     res.status(500).json(err);
   }
 });
+router.get("/signup", (req, res) => {
+  if (req.session.logged_in) {
+    res.redirect("/dashboard");
+    return;
+  }
+  res.render("signup");
+});
 
-router.get("/inventory", withAuth, async (req, res) => {
+router.get('/inventory', withAuth, async (req, res) => {
   try {
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {

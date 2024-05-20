@@ -16,6 +16,13 @@ router.get('/:id', withAuth, async (req, res) => {
             res.status(400).json(error);
     }
 });
+// New User Signup Route
+router.post("/signup", async (req, res) => {
+  try {
+    const dbNewUserData = new User();
+    dbNewUserData.username = req.body.username;
+    dbNewUserData.email = req.body.email;
+    dbNewUserData.password = req.body.password;
 
 // add a new user
 router.post('/signup/', async (req, res) => {
@@ -35,7 +42,6 @@ router.post('/signup/', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-    console.log('users/login called')
   try {
     const userData = await User.findOne({ where: { username: req.body.username } });
 

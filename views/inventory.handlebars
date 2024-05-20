@@ -17,40 +17,54 @@
     <h1 class="mb-4 text-center" style="color: red;"><strong>Inventory</strong></h1>
 
     <div class="d-flex justify-content-between">
-      <button id="gamesModalButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#gamesModal">
+      <!-- <button id="gamesModalButton" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#gamesModal">
       Games
       </button>
 
-      <button id="consoleModalButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#consoleModal">
-      Console
+      <button id="consoleModalButton" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#consoleModal">
+      <strong>Console</strong>
       </button>
 
-      <button id="controllersModalButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#controllersModal">
+      <button id="controllersModalButton" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#controllersModal">
       Controllers
-      </button>
+      </button> -->
 
-       <button id="addItemModalButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal">
-      Add Item
-    </button>
+       <button id="addItemModalButton" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addItemModal">
+          <strong>Add New Item</strong>
+        </button>
+    </div>
+
+
+    <div>
+      <h2>Games</h2>
+      <ul id="ownedGamesList"></ul>
+    </div>
+    <div>
+      <h2>Consoles</h2>
+      <ul id="ownedConsolesList"></ul>
+    </div>
+    <div>
+      <h2>Controllers</h2>
+      <ul id="ownedControllersList"></ul>
     </div>
 
     <!-- Games Modal -->
     <div class="modal" id="gamesModal" tabindex="-1" role="dialog" aria-labelledby="gamesModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="gamesModalLabel">Games</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <!-- Add your games content here -->
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: red;">
+        <h5 class="modal-title text-center" id="gamesModalLabel"><strong>Games</strong></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
         </div>
+        <div class="modal-body">
+        <!-- Add your games content here -->
+        </div>
+        <div class="modal-footer" style="background-color: red;">
+        <button type="button" id= "gameClose" class="btn btn-dark" data-dismiss="modal">Close</button>
+        </div>
+      </div>
       </div>
     </div>
 
@@ -58,8 +72,8 @@
     <div class="modal" id="consoleModal" tabindex="-1" role="dialog" aria-labelledby="consoleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="consoleModalLabel">Console</h5>
+        <div class="modal-header" style="background-color: red;">
+            <h5 class="modal-title text-center" id="consoleModalLabel"><strong>Consoles</strong></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -67,9 +81,9 @@
           <div class="modal-body">
             <!-- Add your console content here -->
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
+           <div class="modal-footer" style="background-color: red;">
+        <button type="button" id="consoleClose" class="btn btn-dark" data-dismiss="modal">Close</button>
+        </div>
         </div>
       </div>
     </div>
@@ -78,8 +92,8 @@
     <div class="modal" id="controllersModal" tabindex="-1" role="dialog" aria-labelledby="controllersModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="controllersModalLabel">Controllers</h5>
+          <div class="modal-header" style="background-color: red;">
+            <h5 class="modal-title text-center" id="controllersModalLabel"><strong>Controllers</strong></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -87,9 +101,9 @@
           <div class="modal-body">
             <!-- Add your controllers content here -->
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
+           <div class="modal-footer" style="background-color: red;">
+        <button type="button" id= "controllerClose" class="btn btn-dark" data-dismiss="modal">Close</button>
+        </div>
         </div>
       </div>
     </div>
@@ -98,34 +112,35 @@
   <div class="modal" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addItemModalLabel">Add New Inventory Item</h5>
+        <div class="modal-header" style="background-color: red;">
+          <h5 class="modal-title" id="addItemModalLabel"><strong>Add New Inventory Item</strong></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body"> <!-- id="addItemFormBody" --> 
+        <div class="modal-body">  
           <!-- Add Item Form -->
           <form id="addItemFormBody">
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="itemCategory">Item Category</label>
               <select id="itemCategory">
                 <option>Game</option>
                 <option>Console</option>
                 <option>Controller</option>
               </select>
-              {{!-- <input type="text" class="form-control" id="itemCategory" placeholder="Enter item category"> --}}
             </div>
             <div class="form-group">
               <label for="itemName">Item Name</label>
               <input type="text" class="form-control" id="itemName" placeholder="Enter item name">
-            </div>
+            </div> -->
             
           </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="saveButton" type="button" class="btn btn-primary">Search</button>
+        
+          
+        <div class="modal-footer" style="background-color: red;">
+          <button type="button" id="addItemClose" class="btn btn-dark" data-dismiss="modal">Close</button>
+          <button id="saveButton" type="button" class="btn btn-primary" state="search">Search</button>
         </div>
       </div>
     </div>

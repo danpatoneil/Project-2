@@ -17,9 +17,10 @@ const placeholder = [{
     url: ''
 }];
 
-async function gameQuery (keyword/*, platform*/){
-    // let whereField;
 
+async function gameQuery (keyword/*, platform*/){    
+    // let whereField;
+    
     // if(Number.isInteger(platform)){
     //     whereField = "platforms=("+platform+")"
     // }else if(typeof platform === "string"){
@@ -27,7 +28,7 @@ async function gameQuery (keyword/*, platform*/){
     //     whereField =  ((x === undefined) ? undefined : "platforms=("+x+")");
     // }else{
     //     whereField = undefined;
-    // }
+    // } 
 
     try{
         const response = await igdb(apiAccess)
@@ -69,7 +70,7 @@ async function coverQuery (coverId){
             return response.data;
         }else{
             console.log('Cover not available.')
-            return placeholder;
+            return placeholder; 
         }
     } catch (err){
         console.log('Cover not available. '+ err);
@@ -119,7 +120,7 @@ async function logoQuery (logoId){
             return response.data;
         }else{
             console.log('Logo not available.')
-            return placeholder;
+            return placeholder; 
         }
     } catch (err){
         console.log('Logo not available. '+ err);
