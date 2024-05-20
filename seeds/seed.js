@@ -14,7 +14,6 @@ const userData = require("./userData.json");
 const partyData = require("./partyData.json");
 const controllerData = require("./controllerData.json");
 const friendData = require("./friendData.json");
-const consoleControllerData = require("./consoleControllerData.json");
 
 const seedDatabase = async () => {
   await sequelize.sync({ force: true });

@@ -10,7 +10,6 @@ router.get('/:id', withAuth, async (req, res) => {
                 exclude: "password"
             }
         })
-        // console.log(userData.dataValues);
         res.status(200).json(userData.dataValues);
     } catch (error) {
             res.status(400).json(error);
@@ -19,7 +18,6 @@ router.get('/:id', withAuth, async (req, res) => {
 
 // add a new user
 router.post('/signup/', async (req, res) => {
-    console.log('users/signup called')
   try {
     const userData = await User.create(req.body);
     console.log(req.body);
