@@ -15,7 +15,7 @@ router.get("/", withAuth, async (req, res) => {
         { model: GameUser },
       ],
     });
-    res.status(200).json(userData);
+    return res.status(200).json(userData);
   } catch (error) {
     return res.status(400).json(error);
   }
