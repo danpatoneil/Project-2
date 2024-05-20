@@ -16,13 +16,6 @@ router.get('/:id', withAuth, async (req, res) => {
             res.status(400).json(error);
     }
 });
-// New User Signup Route
-router.post("/signup", async (req, res) => {
-  try {
-    const dbNewUserData = new User();
-    dbNewUserData.username = req.body.username;
-    dbNewUserData.email = req.body.email;
-    dbNewUserData.password = req.body.password;
 
 // add a new user
 router.post('/signup/', async (req, res) => {
