@@ -17,6 +17,7 @@ const placeholder = [{
     url: ''
 }];
 
+
 async function gameQuery (keyword/*, platform*/){    
     // let whereField;
     

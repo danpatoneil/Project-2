@@ -28,7 +28,7 @@ router.post('/', async(req,res) =>{
                         .catch(error => {
                             console.error("Error fetching cover images:", error);
                         });
-                
+          
          }else if(req.body.itemCategory.toLowerCase()==='console'){
             const consoleData = await igdb.platformQuery(req.body.itemName);
             const updatedData = consoleData.map(item => {
@@ -41,7 +41,7 @@ router.post('/', async(req,res) =>{
                             name: item.name,
                             logo: logo[0].url
                         };
-                        
+                      
                     });
                 });
 
@@ -53,9 +53,9 @@ router.post('/', async(req,res) =>{
                         .catch(error => {
                             console.error("Error fetching cover images:", error);
                         });
-                
+
          }
-        
+
     }catch(err){
         console.log(err);
     }
@@ -73,7 +73,9 @@ router.post('/game/:gameID', async(req,res) =>{
                         name: item.name,
                         cover: cover[0].url
                     };
-                    
+
+                  
+                  
                 });
             });
 
@@ -104,7 +106,9 @@ router.post('/platform/:platformID', async(req,res) =>{
                         name: item.name,
                         logo: logo[0].url
                     };
-                    
+
+                  
+                  
                 });
             });
 

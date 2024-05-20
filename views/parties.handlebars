@@ -33,9 +33,14 @@
       <h2 class="mb-4 text-center">Your Parties</h2>
       <div class="list-group" id="party-list">
         {{#each parties}}
-          <a href="/party/{{id}}" class="list-group-item list-group-item-action">
-            <h5 class="mb-1">{{name}}</h5>
+          <a href="/party-detail/{{this.id}}" class="list-group-item list-group-item-action">
+            <h5 class="mb-1">{{this.name}}</h5>
             {{!-- <p class="mb-1">Date: {{date}}</p>
             <p class="mb-1">Time: {{time}}</p>
             <p class="mb-1">Location: {{location}}</p> --}}
           </a>
+          {{/each}}
+      </div>
+    </div>
+  </div>
+</main>
