@@ -16,8 +16,29 @@ router.get('/:id', withAuth, async (req, res) => {
             res.status(400).json(error);
     }
 });
+// New User Signup Route
+router.post("/signup", async (req, res) => {
+  try {
+    const dbNewUserData = new User();
+    dbNewUserData.username = req.body.username;
+    dbNewUserData.email = req.body.email;
+    dbNewUserData.password = req.body.password;
 
-router.post('/', withAuth, async (req, res) => {
+    const userData = await dbNewUserData.save();
+
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.logged_in = true;
+
+      res.status(200).json(userData);
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Request for new user signup unable to be fulfilled, user not created!" });
+  }
+});
+
+router.post('/', async (req, res) => {
   try {
     const userData = await User.create(req.body);
 

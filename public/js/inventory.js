@@ -50,10 +50,10 @@ addItemButton.addEventListener('click', () => {
 });
 
 // Get references to the close buttons
-const closeButtonGames = document.querySelector('#gamesModal .close');
-const closeButtonConsole = document.querySelector('#consoleModal .close');
-const closeButtonControllers = document.querySelector('#controllersModal .close');
-const closeButtonAddItem = document.querySelector('#addItemModal .close');
+const closeButtonGames = document.querySelector('#gameClose');
+const closeButtonConsole = document.querySelector('#consoleClose');
+const closeButtonControllers = document.querySelector('#controllerClose');
+const closeButtonAddItem = document.querySelector('#addItemClose');
 
 // Add event listeners to the close buttons
 closeButtonGames.addEventListener('click', () => {
