@@ -5,7 +5,6 @@ const searchInput = document.getElementById("search-players-form");
 const closeButton = document.querySelector("#searchModal .btn-close");
 let firstTarget;
 
-
 // Add event listeners to the search form and close button
 document
   .querySelector("#searchModalButton")
@@ -36,7 +35,6 @@ function modalClose() {
 }
 
 async function getFriendsList() {
-  // Your code here...
   const response = await fetch("/api/friends/", {
     method: "GET",
     headers: {
@@ -65,7 +63,6 @@ async function handleAddFriends(event) {
     });
     if (!response.ok) {
       const data = await response.json();
-      console.log(data);
     }
   }
   renderInvitedList();
@@ -82,7 +79,6 @@ async function getAttendees() {
   if (response.ok) {
     const data = await response.json();
     const attendees = data.attendees;
-    // console.log(attendees);
     return attendees;
   }
 }
@@ -91,7 +87,6 @@ async function renderInvitedList() {
   const attendees = await getAttendees();
   const invitedList = document.getElementById("invited-list");
   invitedList.innerHTML = "";
-  renderHardwareTable(partyData.owner_id);
   for (const attendee of attendees) {
     const li = document.createElement("li");
     const row = document.createElement("div");
@@ -114,33 +109,95 @@ async function renderInvitedList() {
 
     li.appendChild(row);
     li.id = attendee.id;
-    li.addEventListener('click', function(event) {
-        renderInvitedList()
-        li.classList.add('bg-dark');
-        handleTableTarget(attendee.id, event.target===deleteButton)
-    })
+    li.addEventListener("click", function (event) {
+      renderInvitedList();
+      li.classList.add("bg-dark");
+      handleTableTarget(attendee.id, event.target !== deleteButton);
+    });
     invitedList.appendChild(li);
   }
 }
 
-function handleTableTarget(attendeeId, isDelete){
-    console.log(attendeeId);
-    console.log(isDelete);
-    renderHardwareTable(attendeeId);
+function handleTableTarget(attendeeId, isNotDelete) {
+  if (isNotDelete) renderHardwareTable(attendeeId);
+  else deleteUserFromParty(attendeeId);
 }
 
-async function changeTableTarget() {}
+async function deleteUserFromParty(attendeeId) {
+  const response = await fetch("/api/parties/attendees/" + partyData.id, {
+    // method: "GET",
+    method: "DELETE",
+    body: JSON.stringify({user_id:attendeeId}),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (response.ok) {
+    const data = await response.json();
+  }
+  renderInvitedList()
+  renderHardwareTable(partyData.owner_id);
+}
 
 async function renderHardwareTable(id) {
-  // console.log(id)
   const response = await fetch("/api/hardware/" + id, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
   });
-  const data = await response.json()
-  console.log(data)
-  
+  if (response.ok) {
+    const data = await response.json();
+    const consoles = data.consoleUsers;
+    const games = data.gameUsers;
+    const controllers = data.controllers;
+    const rows = Math.max(consoles.length, games.length, controllers.length);
+    const tableBody = document.getElementById("tableBody");
+    tableBody.innerHTML = "";
+    for (let index = 0; index < rows; index++) {
+      const row = document.createElement("tr");
+      const username = document.createElement("td");
+      const console = document.createElement("td");
+      const controller = document.createElement("td");
+      const game = document.createElement("td");
+      if (index == 0) {
+        username.innerHTML = data.username;
+      }
+      if (consoles[index]) {
+        console.innerHTML = await getConsole(consoles[index].console_id);
+      }
+      if (games[index]) {
+        game.innerHTML = await getGame(games[index].game_id);
+      }
+      if (controllers[index]) {
+        controller.innerHTML = controllers[index].description;
+      }
+      row.appendChild(username);
+      row.appendChild(game);
+      row.appendChild(console);
+      row.appendChild(controller);
+      tableBody.appendChild(row);
+    }
+  }
+}
+
+async function getGame(id){
+    const response = await fetch(`/api/igdb/game/${id}`,{
+        method: 'POST'
+      });
+      if(response.ok){
+      const data = await response.json();
+      return data[0].name
+      }
+}
+async function getConsole(id){
+    const response = await fetch(`/api/igdb/platform/${id}`,{
+        method: 'POST'
+      });
+      if(response.ok){
+      const data = await response.json();
+      return data[0].name
+      }
 }
 renderInvitedList();
+renderHardwareTable(partyData.owner_id);

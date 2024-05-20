@@ -55,9 +55,7 @@ router.get("/attendees/:id", withAuth, async (req, res) => {
 // }
 router.post("/attendees/:id", withAuth, async (req, res) => {
   try {
-    console.log(req.params);
     const party = await Party.findByPk(req.params.id);
-    console.log(party.dataValues);
     if (party.dataValues.owner_id != req.session.user_id)
       return res
         .status(400)
@@ -72,6 +70,25 @@ router.post("/attendees/:id", withAuth, async (req, res) => {
     res.status(400).json(err);
   }
 });
+
+//removes a user from the specified party
+// {
+//     "user_id":0
+// }
+router.delete("/attendees/:id", withAuth, async (req, res) => {
+    try {
+      const party = await Party.findByPk(req.params.id);
+      if (party.dataValues.owner_id != req.session.user_id)
+        return res
+          .status(400)
+          .json({ message: "Logged in user does not own this party" });
+      const partyRemove = await party.removeUser(req.body.user_id);
+      return res.status(200).json(partyRemove);
+    } catch (err) {
+      res.status(400).json(err);
+    }
+  });
+
 
 // adds a new party with the description from the body of the req as the name, format should be
 // {
