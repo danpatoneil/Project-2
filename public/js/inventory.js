@@ -81,18 +81,23 @@ closeButtonAddItem.addEventListener('click', () => {
 const saveButton = document.querySelector('#saveButton');
 saveButton.addEventListener('click', async (event) => {
   //event.preventDefault();
-
-  
- 
+  let itemName = "";
+  let itemCategory = ""; 
+  debugger;
   const buttonState = saveButton.getAttribute('state');
-  // console.log(buttonState);
+  console.log(buttonState);
   
   // Get the values from the form
-  const itemName = document.querySelector('#itemName').value.trim();
-  const itemCategory = document.querySelector('#itemCategory').value.trim();
-  
-  
+  if(buttonState === "search"){
+    itemName = document.querySelector('#itemName').value.trim();
+    itemCategory = document.querySelector('#itemCategory').value.trim();
+  }else{
+    itemCategory = saveButton.getAttribute('category');
+  }
+  console.log(itemCategory);
+
   if(buttonState === "search" && itemCategory.toLowerCase() != 'controller' ){
+    console.log('loop 1');
     itemForm.innerHTML = ""; 
     const response = await fetch('/api/igdb/', {
           method: 'POST',
@@ -131,14 +136,14 @@ saveButton.addEventListener('click', async (event) => {
     }else{
       console.log('nothing returned');
     }
-    
+  
   
   } else {
-    console.log(itemCategory);
+    console.log('loop 2');
 
-    if(itemCategory.toLowerCase()!='controller'){
-      itemCategory = saveButton.getAttribute('category');
-    }
+    // if(itemCategory.toLowerCase()!='controller'){
+    //   itemCategory = saveButton.getAttribute('category');
+    // }
 
     if(itemCategory.toLowerCase() === 'game'){
       let gameId;
@@ -236,10 +241,16 @@ if(window.location.href.indexOf('inventory') >-1){
             const gamesData = await rez.json();
             for(let i=0; i<gamesData.length; i++){
               let li = document.createElement('li');
-              let img = document.createElement('img');
-              img.src = gamesData[i].cover;
-              li.append(img);
-              li.textContent = gamesData[i].name;
+              let inner = `<img src="${gamesData[i].cover}" width="20px" >  <span class="inventoryList">${gamesData[i].name}</span>  <button itemcategory="games" itemid="${gamesData[i].id}"class="delete-trigger btn btn-outline-danger btn-sm" aria-label="Delete" type="button">
+              <span aria-hidden="true">&times;</span>
+            </button>`;
+              //let img = document.createElement('img');
+              //img.src = gamesData[i].cover;
+              //console.log(img);
+              //console.log(inner);
+              // li.append(img);
+              // li.textContent = gamesData[i].name;
+              li.innerHTML = inner;
               gamesList.append(li);
               //console.log(img.src);
             }
@@ -254,28 +265,74 @@ if(window.location.href.indexOf('inventory') >-1){
             const platformData = await rez.json();
             for(let i=0; i<platformData.length; i++){
               let li = document.createElement('li');
-              let img = document.createElement('img');
-              img.src = platformData[i].logo;
-              img.setAttribute('width', '20px');
-              li.append(img);
-              li.textContent = platformData[i].name;
+              let inner = `<img src="${platformData[i].logo}" width="20px" >  <span class="inventoryList">${platformData[i].name}</span>  <button itemcategory="consoles" itemid="${platformData[i].id}" class="delete-trigger btn btn-outline-danger btn-sm" aria-label="Delete" type="button">
+              <span aria-hidden="true">&times;</span>
+            </button>`;
+              li.innerHTML = inner;
+              // let img = document.createElement('img');
+              // img.src = platformData[i].logo;
+              // img.setAttribute('width', '20px');
+              // li.append(img);
+              // li.textContent = platformData[i].name;
               consolesList.append(li);
-              //console.log(platformData[i].logo);
+              // //console.log(platformData[i].logo);
             }
           }
         }
 
         for(let i=0; i<inventoryData.controllers.length; i++){
-          let li = document.createElement('li');      
-          li.textContent = inventoryData.controllers[i].description;
+          let li = document.createElement('li');   
+          let inner = `<span class="inventoryList">${inventoryData.controllers[i].description}</span>  <button itemcategory="controllers" itemid="${inventoryData.controllers[i].id}" class="delete-trigger btn btn-outline-danger btn-sm" aria-label="Delete" type="button">
+              <span aria-hidden="true">&times;</span>
+            </button>`;
+          li.innerHTML = inner;   
+          //li.textContent = inventoryData.controllers[i].description;
           controllersList.append(li);
         }
   
       }else{
         console.log('error');
       }
+
+      
+    // Section of code suggested by Xpert Learning Assistant
+    // Select all buttons with the class "delete-trigger"
+    const deleteButtons = document.querySelectorAll('.delete-trigger');
+
+    // Iterate over the selected buttons and add an event listener to each
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+
+            //console.log("Button Clicked");
+            // Get the game id from the button's data attribute
+            const itemId = button.getAttribute('itemid');
+            const category = button.getAttribute('itemcategory');
+            // Call a function to handle the deletion of the game entry with the gameId
+            deleteGameEntry(itemId, category);
+        });
+    });
+
+    // Function to handle the deletion of a game entry
+    
   });
+
+
+  
+
 }
 
+async function deleteGameEntry(itemId, category) {
+  // Add your logic here to delete the game entry with the given gameId
+  
+  const response = await fetch(`/api/hardware/${category}/${itemId}`, {method:'DELETE'});
+  if(response.ok){
+    console.log(`Deleting game entry with ID: ${itemId} in CATEGORY: ${category}`);
+    window.location.reload(true);
+  }else{
+    console.log(`Could not delete`);
+  }
+
+
+}
 
 
