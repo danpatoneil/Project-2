@@ -47,7 +47,7 @@ async function loadParties() {
             header.textContent = party.name;
             link.href = `party-details/${party.id}`;
             listItem.classList = 'mb-4 text-center list-group-item'
-            link.classList = 'mb-4 text-white';
+            link.classList = 'mb-4';
             link.appendChild(header);
             listItem.appendChild(link);
             partyList.appendChild(listItem);
