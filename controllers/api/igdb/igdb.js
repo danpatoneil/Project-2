@@ -42,9 +42,10 @@ async function gameIdQuery (gameId){
             .fields('name,cover,platforms')
             .where(`id=${gameId}`)
             .request('/games');
-        console.log('Start of Game ID Query');
-        console.log(response.data);
-        console.log('Énd of Game ID Query');
+        // console.log('Start of Game ID Query');
+        // console.log(response.data);
+        // console.log('Énd of Game ID Query');
+        return response.data;
     } catch (err){
         console.log('Game not found. '+ err);
     }
@@ -71,9 +72,10 @@ async function platformQuery (keyword){
             .fields('name,abbreviation,alternative_name')
             .search(keyword)
             .request('/platforms');
-        console.log('Start of Platform Query');
-        console.log(response.data);
-        console.log('Énd of Platform Query');
+        // console.log('Start of Platform Query');
+        // console.log(response.data);
+        // console.log('Énd of Platform Query');
+        return response.data;
     } catch (err){
         console.log('Platform not found. '+ err);
     }
@@ -99,10 +101,11 @@ async function logoQuery (logoId){
         const response = await igdb(apiAccess)
             .fields('url')
             .where(`id=${logoId}`)
-            .request('/platform_logs');
-        console.log('Start of Logo ID Query');
-        console.log(response.data);
-        console.log('Énd of Logo ID Query');
+            .request('/platform_logos');
+        // console.log('Start of Logo ID Query');
+        // console.log(response.data);
+        // console.log('Énd of Logo ID Query');
+        return response.data;
     } catch (err){
         console.log('Logo not available. '+ err);
     }

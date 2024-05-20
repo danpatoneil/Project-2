@@ -1,10 +1,12 @@
 
 const gamersGalaLoginFormHandler = async (event) => {
   event.preventDefault();
-  
+  console.log('CHECK');
+
   const username = document.querySelector('#username-gamers-gala-login').value.trim();
   const password = document.querySelector('#password-gamers-gala-login').value.trim();
   if (username && password) {
+    
     const response = await fetch('/api/users/login', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
