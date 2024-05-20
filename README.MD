@@ -2,9 +2,13 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Description: A site for planning gaming parties and tracking your gaming collection. As a console gamer I want to be able to see a comprehensive list of the games, consoles, and controllers that my friends have so that I can more easily plan what games a specific group of friends can play together
+## Description: 
 
-## Usage: Users will be able to log into their account. Once logged in they can go to their inventory or to plan a party. In inventory, they can manage their collection of games, consoles and controllers. 
+A site for planning gaming parties and tracking your gaming collection. As a console gamer I want to be able to see a comprehensive list of the games, consoles, and controllers that my friends have so that I can more easily plan what games a specific group of friends can play together
+
+## Usage: 
+
+Users will be able to log into their account. Once logged in they can go to their inventory or to plan a party. In inventory, they can manage their collection of games, consoles and controllers. 
 
 ## Screenshots: 
 LOG IN SCREEN
