@@ -1,4 +1,4 @@
-# MVC Model View Controller Tech Blog 
+# Gamers Gala
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -19,7 +19,10 @@ INVENTORY SCREEN
 ADDING ITEMS
 <img src="./public/images/screenshot(4).png" width="800px" style="display: block;margin-bottom: 5px;">
 <img src="./public/images/screenshot(5).png" width="800px" style="display: block;">
+
 ## Link to deployed app:
+
+https://gamers-gala-185ba9f0e124.herokuapp.com/login
 
 ## Credits:
 Aaron Allen
