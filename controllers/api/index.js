@@ -12,3 +12,4 @@ router.use('/hardware', hardwareRoutes);
 router.use('/igdb', igdbRoutes);
 
 module.exports = router;
+

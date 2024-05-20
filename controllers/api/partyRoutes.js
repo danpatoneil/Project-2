@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const sequelize = require("../../config/connection");
-const { Party, User, PartyGoer } = require("../../models");
+const { Party, User } = require("../../models");
 const { findAll } = require("../../models/User");
 const withAuth = require("../../utils/auth");
 
@@ -20,12 +20,12 @@ router.get("/invited/", withAuth, async (req, res) => {
   try {
     const invitedList = await sequelize.query(
       `SELECT party_id, name FROM partygoers LEFT JOIN party ON party.id = partygoers.party_id WHERE user_id = ?`,
-      {replacements:[req.session.user_id]}
+      { replacements: [req.session.user_id] }
     );
-    const [list] = invitedList
+    const [list] = invitedList;
     res.status(200).json(list);
   } catch (err) {
-    console.error(err)
+    console.error(err);
     res.status(400).json(err);
   }
 });
@@ -55,9 +55,7 @@ router.get("/attendees/:id", withAuth, async (req, res) => {
 // }
 router.post("/attendees/:id", withAuth, async (req, res) => {
   try {
-    console.log(req.params);
     const party = await Party.findByPk(req.params.id);
-    console.log(party.dataValues);
     if (party.dataValues.owner_id != req.session.user_id)
       return res
         .status(400)
@@ -73,6 +71,25 @@ router.post("/attendees/:id", withAuth, async (req, res) => {
   }
 });
 
+//removes a user from the specified party
+// {
+//     "user_id":0
+// }
+router.delete("/attendees/:id", withAuth, async (req, res) => {
+    try {
+      const party = await Party.findByPk(req.params.id);
+      if (party.dataValues.owner_id != req.session.user_id)
+        return res
+          .status(400)
+          .json({ message: "Logged in user does not own this party" });
+      const partyRemove = await party.removeUser(req.body.user_id);
+      return res.status(200).json(partyRemove);
+    } catch (err) {
+      res.status(400).json(err);
+    }
+  });
+
+
 // adds a new party with the description from the body of the req as the name, format should be
 // {
 //     "name":"whatever"
@@ -82,11 +99,13 @@ router.post("/", withAuth, async (req, res) => {
   try {
     const newParty = await Party.create({
       ...req.body,
-      user_id: req.session.user_id,
+      owner_id: req.session.user_id,
     });
 
     return res.status(200).json(newParty);
   } catch (err) {
+    console.log({ ...req.body, owner_id: req.session.user_id });
+    console.log(err);
     return res.status(400).json(err);
   }
 });
@@ -102,11 +121,9 @@ router.delete("/:id", withAuth, async (req, res) => {
     });
 
     if (!partyData) {
-      res
-        .status(404)
-        .json({
-          message: "No party found with this id that belongs to this owner!",
-        });
+      res.status(404).json({
+        message: "No party found with this id that belongs to this owner!",
+      });
       return;
     }
 

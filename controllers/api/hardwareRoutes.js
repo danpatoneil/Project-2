@@ -24,17 +24,18 @@ router.get("/", withAuth, async (req, res) => {
 // get the hardware of a given user id, but only if they are friends with the logged in user
 router.get("/:id", withAuth, async (req, res) => {
   try {
+    if(!req.params.id==req.session.user_id){
     const friendCheck = await User.findByPk(req.session.user_id)
       .then((loggedInUser) => loggedInUser.getFriends())
       .then((friendList) => friendList.map((user) => user.dataValues.id))
       .then((friendIDs) => friendIDs.includes(parseInt(req.params.id)));
-    if (friendCheck)
+    if (!friendCheck)
       return res
         .status(500)
         .json({
           message:
             "you can't see the hardware of a user who you aren't friends with",
-        });
+        });}
     const userData = await User.findByPk(req.params.id, {
       attributes: { exclude: "password" },
       include: [
