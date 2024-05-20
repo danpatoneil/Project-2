@@ -22,7 +22,7 @@ router.post('/', async(req,res) =>{
 
                     Promise.all(updatedData)
                         .then(data => {
-                           //console.log(updatedResults);
+                            console.log('Game Data: '+data);
                             res.status(200).json(data);
                         })
                         .catch(error => {
@@ -32,6 +32,7 @@ router.post('/', async(req,res) =>{
          }else if(req.body.itemCategory.toLowerCase()==='console'){
             const consoleData = await igdb.platformQuery(req.body.itemName);
             const updatedData = consoleData.map(item => {
+                    console.log(item.platform_logo);
                     return igdb.logoQuery(item.platform_logo)
                     .then(logo => {
                         logo[0].url = logo[0].url.replace("t_thumb","t_cover_big");
@@ -46,7 +47,7 @@ router.post('/', async(req,res) =>{
 
                     Promise.all(updatedData)
                         .then(data => {
-                           //console.log(updatedResults);
+                            console.log('Console Data: '+data);
                             res.status(200).json(data);
                         })
                         .catch(error => {

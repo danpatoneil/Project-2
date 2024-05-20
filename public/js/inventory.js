@@ -58,6 +58,7 @@ const closeButtonAddItem = document.querySelector('#addItemClose');
 // Add event listeners to the close buttons
 closeButtonGames.addEventListener('click', () => {
   gamesModal.style.display = 'none';
+  
 });
 
 closeButtonConsole.addEventListener('click', () => {
@@ -69,7 +70,9 @@ closeButtonControllers.addEventListener('click', () => {
 });
 
 closeButtonAddItem.addEventListener('click', () => {
+  saveButton.setAttribute('state', 'search');
   addItemModal.style.display = 'none';
+  window.location.reload(true);
 });
 
 
@@ -82,55 +85,60 @@ saveButton.addEventListener('click', async (event) => {
   
  
   const buttonState = saveButton.getAttribute('state');
-  //console.log(buttonState);
-  if(buttonState === "search"){
-    // Get the values from the form
-    const itemName = document.querySelector('#itemName').value.trim();
-    const itemCategory = document.querySelector('#itemCategory').value.trim();
+  // console.log(buttonState);
+  
+  // Get the values from the form
+  const itemName = document.querySelector('#itemName').value.trim();
+  const itemCategory = document.querySelector('#itemCategory').value.trim();
+  
+  
+  if(buttonState === "search" && itemCategory.toLowerCase() != 'controller' ){
     itemForm.innerHTML = ""; 
-    if(itemCategory.toLowerCase() === 'controller'){
+    const response = await fetch('/api/igdb/', {
+          method: 'POST',
+          body: JSON.stringify({ itemName, itemCategory }),
+          headers: { 'Content-Type': 'application/json' }
+      });
+
+    if(response.ok){
+      const data = await response.json();
+      
+      // console.log(data);
+
+      const wrapper = document.createElement('div');
+      
+      for(let i = 0; i< data.length; i++){
+        let div = document.createElement('div');
+        div.setAttribute('class', 'form-check');
+        let input = document.createElement('input');
+        let label = document.createElement('label');
+        input.setAttribute('type', 'radio');
+        input.setAttribute('class', 'form-check-input');
+        input.setAttribute('name', 'Selection');
+        input.setAttribute('value', data[i].name);
+        label.textContent = data[i].name;
+        input.setAttribute(`${itemCategory.toLowerCase()}Id`, data[i].id);
+        div.append(input);
+        div.append(label);
+        wrapper.append(div);
+      }
+      itemForm.append(wrapper);
+      saveButton.setAttribute('state', 'save');
+      saveButton.setAttribute('category', itemCategory);
+      saveButton.textContent = "Save";
+
 
     }else{
-      const response = await fetch('/api/igdb/', {
-            method: 'POST',
-            body: JSON.stringify({ itemName, itemCategory }),
-            headers: { 'Content-Type': 'application/json' }
-        });
-  
-        if(response.ok){
-          const data = await response.json();
-          
-
-          const wrapper = document.createElement('div');
-          
-          for(let i = 0; i< data.length; i++){
-            let div = document.createElement('div');
-            div.setAttribute('class', 'form-check');
-            let input = document.createElement('input');
-            let label = document.createElement('label');
-            input.setAttribute('type', 'radio');
-            input.setAttribute('class', 'form-check-input');
-            input.setAttribute('name', 'Selection');
-            input.setAttribute('value', data[i].name);
-            label.textContent = data[i].name;
-            input.setAttribute(`${itemCategory.toLowerCase()}Id`, data[i].id);
-            div.append(input);
-            div.append(label);
-            wrapper.append(div);
-          }
-          itemForm.append(wrapper);
-          saveButton.setAttribute('state', 'save');
-          saveButton.setAttribute('category', itemCategory);
-          saveButton.textContent = "Save";
-
-
-        }else{
-          console.log('nothing returned');
-        }
-      
+      console.log('nothing returned');
     }
+    
+  
   } else {
-    itemCategory = saveButton.getAttribute('category');
+    console.log(itemCategory);
+
+    if(itemCategory.toLowerCase()!='controller'){
+      itemCategory = saveButton.getAttribute('category');
+    }
 
     if(itemCategory.toLowerCase() === 'game'){
       let gameId;
@@ -175,6 +183,16 @@ saveButton.addEventListener('click', async (event) => {
 
       saveButton.setAttribute('state', 'search');
       window.location.reload(true);
+    }else if(itemCategory.toLowerCase() === 'controller'){
+      console.log('Save controller');
+      let catController = itemCategory;
+      catController +='s';
+      const response = await fetch(`/api/hardware/${catController.toLowerCase()}/${itemName}`, {
+        method: 'POST'
+      });
+
+      saveButton.setAttribute('state', 'search');
+      window.location.reload(true);
     }
     
     
@@ -207,7 +225,7 @@ if(window.location.href.indexOf('inventory') >-1){
       if(response.ok){
         const inventoryData = await response.json();
         // console.log(inventoryData.consoleUsers);
-        // console.log(inventoryData.controllers);
+        //console.log(inventoryData.controllers);
         // console.log(inventoryData.gameUsers);
   
         for(let i=0; i<inventoryData.gameUsers.length; i++){
@@ -245,6 +263,12 @@ if(window.location.href.indexOf('inventory') >-1){
               //console.log(platformData[i].logo);
             }
           }
+        }
+
+        for(let i=0; i<inventoryData.controllers.length; i++){
+          let li = document.createElement('li');      
+          li.textContent = inventoryData.controllers[i].description;
+          controllersList.append(li);
         }
   
       }else{

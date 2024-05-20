@@ -12,23 +12,28 @@ const apiAccess = {
     }
 };
 
-async function gameQuery (keyword, platform){    
-    let whereField;
+const placeholder = [{
+    id: 0,
+    url: ''
+}];
+
+async function gameQuery (keyword/*, platform*/){    
+    // let whereField;
     
-    if(Number.isInteger(platform)){
-        whereField = "platforms=("+platform+")"
-    }else if(typeof platform === "string"){
-        let x =platformDict.idFromValue(platform);
-        whereField =  ((x === undefined) ? undefined : "platforms=("+x+")");
-    }else{
-        whereField = undefined;
-    } 
+    // if(Number.isInteger(platform)){
+    //     whereField = "platforms=("+platform+")"
+    // }else if(typeof platform === "string"){
+    //     let x =platformDict.idFromValue(platform);
+    //     whereField =  ((x === undefined) ? undefined : "platforms=("+x+")");
+    // }else{
+    //     whereField = undefined;
+    // } 
 
     try{
         const response = await igdb(apiAccess)
             .fields('id, name, cover')
             .search(keyword)
-            .where(whereField)
+            // .where(whereField)
             .request('/games');
         return response.data;
     } catch (err){
@@ -53,14 +58,19 @@ async function gameIdQuery (gameId){
 
 async function coverQuery (coverId){
     try{
-        const response = await igdb(apiAccess)
-            .fields('url')
-            .where(`id=${coverId}`)
-            .request('/covers');
-        // console.log('Start of Cover ID Query');
-        // console.log(response.data);
-        // console.log('Énd of Cover ID Query');
-        return response.data;
+        if(coverId != undefined){
+            const response = await igdb(apiAccess)
+                .fields('url')
+                .where(`id=${coverId}`)
+                .request('/covers');
+            // console.log('Start of Cover ID Query');
+            // console.log(response.data);
+            // console.log('Énd of Cover ID Query');
+            return response.data;
+        }else{
+            console.log('Cover not available.')
+            return placeholder; 
+        }
     } catch (err){
         console.log('Cover not available. '+ err);
     }
@@ -98,14 +108,19 @@ async function platformIdQuery (platformId){
 
 async function logoQuery (logoId){
     try{
-        const response = await igdb(apiAccess)
-            .fields('url')
-            .where(`id=${logoId}`)
-            .request('/platform_logos');
-        // console.log('Start of Logo ID Query');
-        // console.log(response.data);
-        // console.log('Énd of Logo ID Query');
-        return response.data;
+        if(logoId != undefined){
+            const response = await igdb(apiAccess)
+                .fields('url')
+                .where(`id=${logoId}`)
+                .request('/platform_logos');
+            // console.log('Start of Logo ID Query');
+            // console.log(response.data);
+            // console.log('Énd of Logo ID Query');
+            return response.data;
+        }else{
+            console.log('Logo not available.')
+            return placeholder; 
+        }
     } catch (err){
         console.log('Logo not available. '+ err);
     }
