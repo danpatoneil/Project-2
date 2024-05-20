@@ -1,7 +1,7 @@
 
 const gamersGalaLoginFormHandler = async (event) => {
   event.preventDefault();
-  
+
   const username = document.querySelector('#username-gamers-gala-login').value.trim();
   const password = document.querySelector('#password-gamers-gala-login').value.trim();
   if (username && password) {
@@ -10,7 +10,7 @@ const gamersGalaLoginFormHandler = async (event) => {
       body: JSON.stringify({ username, password }),
       headers: { 'Content-Type': 'application/json' },
     });
-  
+
     if (response.ok) {
       document.location.replace('/');
     } else {

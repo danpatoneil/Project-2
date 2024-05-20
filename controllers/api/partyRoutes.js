@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const sequelize = require("../../config/connection");
-const { Party, User, PartyGoer } = require("../../models");
+const { Party, User } = require("../../models");
 const { findAll } = require("../../models/User");
 const withAuth = require("../../utils/auth");
 
@@ -80,13 +80,12 @@ router.post("/attendees/:id", withAuth, async (req, res) => {
 // logged in user will be the owner
 router.post("/", withAuth, async (req, res) => {
   try {
-    const newParty = await Party.create({
-      ...req.body,
-      user_id: req.session.user_id,
-    });
+    const newParty = await Party.create({...req.body,owner_id:req.session.user_id});
 
     return res.status(200).json(newParty);
   } catch (err) {
+    console.log({...req.body,owner_id:req.session.user_id})
+    console.log(err)
     return res.status(400).json(err);
   }
 });
