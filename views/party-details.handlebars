@@ -1,12 +1,12 @@
 <div class="row">
   <div class="col-md-6">
-    <h2>{{partyName}} Details</h2>
+    <h2>{{party.name}} Details</h2>
   </div>
   <div class="col-md-6">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModal">
-      Search Players
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModal" id="searchModalButton">
+      Add friends
     </button>
-    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -14,50 +14,53 @@
             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form id="search-players-form">
+            <div class="container-fliud">
+            <div class="row">
+                <div class="col-12">
+                    <form id="add-friends">
+                        <select data-mdb-select-init multiple class="center-select form-control" id="friendsList">
+                        </select>
+                        <button type="submit" class="btn btn-primary">Add Friends</button>
+                    </form>
+                </div>
+            </div>
+            </div>
+            {{!-- <form id="search-players-form">
                 <div class="mb-3">
                 <label for="search" class="form-label">Search</label>
                 <input type="text" class="form-control" id="search" name="search" required>
                 </div>
-                <div class="mb-3">
-                <label for="searchBy" class="form-label">Search By</label>
-                <select class="form-select" id="searchBy" name="searchBy" required>
-                  <option value="username">Username</option>
-                  <option value="email">Email</option>
-                </select>
-                </div>
               <button type="submit" class="btn btn-primary">Search</button>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </form> --}}
           </div>
         </div>
       </div>
-    <h2>Players List</h2>
-    <table class="table table-striped" id="playersTable">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Level</th>
-          <th>Class</th>
-          <th>Game</th>
-          <th>Console</th>
-          <th>Controllers</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each players}}
-        <tr>
-          <td>{{name}}</td>
-          <td>{{level}}</td>
-          <td>{{class}}</td>
-          <td>{{game}}</td>
-          <td>{{console}}</td>
-          <td>{{controllers}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
   </div>
+
 </div>
+
+
+    <div class="row">
+        <h2>Invited Players</h2>
+        <div class="col-2">
+    <ul id="invited-list" class="bg-info"></ul>
+    </div>
+    <div class="col-9 bg-info">
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Username</th>
+      <th scope="col">Games</th>
+      <th scope="col">Consoles</th>
+      <th scope="col">Controllers</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody">
+  </tbody>
+</table>
+    </div>
+    </div>
+    <script>
+        // Define a global variable to store the party object
+        var partyData = {{{partyJSON}}};
+    </script>

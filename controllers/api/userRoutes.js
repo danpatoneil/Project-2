@@ -24,24 +24,12 @@ router.post("/signup", async (req, res) => {
     dbNewUserData.email = req.body.email;
     dbNewUserData.password = req.body.password;
 
-    const userData = await dbNewUserData.save();
-
-    req.session.save(() => {
-      req.session.user_id = userData.id;
-      req.session.logged_in = true;
-
-      res.status(200).json(userData);
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Request for new user signup unable to be fulfilled, user not created!" });
-  }
-});
-
-router.post('/', async (req, res) => {
+// add a new user
+router.post('/signup/', async (req, res) => {
+    console.log('users/signup called')
   try {
     const userData = await User.create(req.body);
-
+    console.log(req.body);
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
@@ -60,7 +48,7 @@ router.post('/login', async (req, res) => {
     if (!userData) {
       res
         .status(400)
-        .json({ message: 'error 1' });
+        .json({ message: 'Incorrect email or password, please try again' });
       return;
     }
 
